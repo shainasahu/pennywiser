@@ -10,7 +10,7 @@ const MonthlyGoals = () => {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/categories') // Flask endpoint
+    fetch('http://127.0.0.1:8000/api/categories') // Flask endpoint
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch((err) => console.error('Error fetching categories:', err));

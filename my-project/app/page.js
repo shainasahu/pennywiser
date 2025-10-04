@@ -1,4 +1,5 @@
 import BarChart from "./components/BarChart";
+import MonthlyGraph from "./components/MonthlyGraph";
 
 export default function Home() {
   return (
@@ -18,6 +19,10 @@ export default function Home() {
         {/* Bar Chart Component */}
         <div className="w-full max-w-sm">
           <BarChart />
+        </div>
+
+        <div className="w-full max-w-sm">
+          <MonthlyGraph />
         </div>
       </main>
     </div>

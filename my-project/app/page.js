@@ -4,8 +4,8 @@ export default function Home() {
   return (
     <div className="flex flex-col h-full w-full bg-white">
       {/* Top Bar */}
-      <header className="w-full p-4 bg-gradient-to-r from-amber-400 to-yellow-500 text-white text-center font-bold text-2xl shadow-md">
-        Pennywiser 💰
+      <header className="w-full p-4 bg-gradient-to-r from-green-800 to-green-800 text-white text-center font-bold text-2xl shadow-md">
+        PennyWiser
       </header>
 
       {/* Main Content Area */}

@@ -5,7 +5,7 @@ export default function BarChart() {
     <div className="w-full flex justify-center">
       <div className="relative w-full max-w-xs h-60 rounded-xl overflow-hidden shadow-md border border-gray-200">
         <Image
-          src="/chart-placeholder.png"
+          src="/chart_placeholder.png"
           alt="Spending chart"
           fill
           className="object-cover"

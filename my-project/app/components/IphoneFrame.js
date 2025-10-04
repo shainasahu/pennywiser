@@ -7,8 +7,14 @@ export default function IphoneFrame({ children }) {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[180px] h-[30px] bg-black rounded-b-[20px]" />
   
           {/* Inner screen (scrollable app area) */}
-          <div className="w-full h-full bg-white rounded-[36px] overflow-y-auto">
-            {children}
+          <div className="w-full h-full bg-white rounded-[36px] overflow-y-auto relative">
+            {/* Top bezel area (black border frame) */}
+            <div className="absolute top-0 left-0 w-full h-[40px] bg-black rounded-t-[36px] z-10" />
+  
+            {/* Actual app content */}
+            <div className="relative z-20 pt-[40px]"> 
+              {children}
+            </div>
           </div>
         </div>
       </div>

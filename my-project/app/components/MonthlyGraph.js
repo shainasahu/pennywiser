@@ -36,19 +36,23 @@ const MonthlyGoals = () => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-2xl shadow-md w-full max-w-2xl">
+    <div className="p-1 bg-white rounded-2xl shadow-md w-full max-w-2xl">
+      <div>
+        <button
+            onClick={() => setShowVideo(true)}
+            className="px-4 py-2 bg-green-100 text-green-800 text-sm font-medium rounded-md hover:bg-green-200 transition"
+            aria-haspopup="dialog"
+            aria-expanded={showVideo}
+        >
+          🔔 Your Monthly Recap is Ready! 
+        </button>
+      </div>
+      <br/>
+
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold">Monthly Goals</h2>
 
-        {/* Video button */}
-        <button
-          onClick={() => setShowVideo(true)}
-          className="ml-4 px-3 py-1.5 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"
-          aria-haspopup="dialog"
-          aria-expanded={showVideo}
-        >
-          Watch Demo
-        </button>
+        
       </div>
 
       <div className="space-y-4">

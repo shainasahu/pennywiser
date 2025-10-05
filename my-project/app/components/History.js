@@ -1,8 +1,11 @@
-"use client";
+'use client';
 import { useState } from "react";
 
 export default function History({ onClose }) {
   const transactions = [
+    // OCTOBER 2025
+    { id: 37, date: "2025-10-03", category: "Food", amount: 20.0, description: "Panera" },
+
     // SEPTEMBER 2025
     { id: 1, date: "2025-09-28", category: "Food", amount: 14.5, description: "Chipotle" },
     { id: 2, date: "2025-09-22", category: "Travel", amount: 38.0, description: "Uber" },
@@ -42,28 +45,20 @@ export default function History({ onClose }) {
     { id: 28, date: "2025-05-12", category: "Shopping", amount: 99.99, description: "Old Navy" },
     { id: 29, date: "2025-05-08", category: "Entertainment", amount: 25.0, description: "Bowling Alley" },
     { id: 30, date: "2025-05-02", category: "Food", amount: 13.0, description: "Subway" },
-
-    // APRIL 2025
-    { id: 31, date: "2025-04-30", category: "Utilities", amount: 105.0, description: "Phone Bill" },
-    { id: 32, date: "2025-04-25", category: "Food", amount: 20.0, description: "McDonald's" },
-    { id: 33, date: "2025-04-18", category: "Shopping", amount: 150.0, description: "Zara" },
-    { id: 34, date: "2025-04-15", category: "Travel", amount: 22.0, description: "Uber" },
-    { id: 35, date: "2025-04-10", category: "Entertainment", amount: 60.0, description: "Music Festival" },
-    { id: 36, date: "2025-04-05", category: "Food", amount: 11.0, description: "Burger King" },
   ];
 
-  const now = new Date();
-  const monthTabs = Array.from({ length: 6 }, (_, i) => {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
-    return {
-      label: d.toLocaleString("default", { month: "short" }),
-      value: `${year}-${month}`,
-    };
-  });
+  // Month tabs May → October
+  const monthTabs = [
+    { label: "May", value: "2025-05" },
+    { label: "Jun", value: "2025-06" },
+    { label: "Jul", value: "2025-07" },
+    { label: "Aug", value: "2025-08" },
+    { label: "Sep", value: "2025-09" },
+    { label: "Oct", value: "2025-10" },
+  ];
 
-  const [selectedMonth, setSelectedMonth] = useState(monthTabs[0].value);
+  // Default selected is October
+  const [selectedMonth, setSelectedMonth] = useState("2025-10");
 
   const filteredTransactions = transactions.filter((tx) =>
     tx.date.startsWith(selectedMonth)

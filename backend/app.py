@@ -12,11 +12,11 @@ genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 @app.route("/api/categories")
 def get_categories():
     categories = [
-        {"name": "Groceries", "budget": 300, "spent": 250},
-        {"name": "Food & Takeout", "budget": 150, "spent": 180},
-        {"name": "Rent", "budget": 800, "spent": 800},
-        {"name": "Shopping", "budget": 200, "spent": 100},
-        {"name": "Entertainment", "budget": 100, "spent": 50}
+        {"name": "Groceries", "budget": 300, "spent": 100},
+        {"name": "Food & Takeout", "budget": 150, "spent": 10},
+        {"name": "Shopping", "budget": 200, "spent": 17},
+        {"name": "Entertainment", "budget": 100, "spent": 50},
+        {"name": "Rent", "budget": 800, "spent": 800}
     ]
     return jsonify(categories)
 

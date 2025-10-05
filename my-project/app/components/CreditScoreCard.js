@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 export default function CreditScoreCard({ goalMet = true , onScoreChange}) {
-  const [score, setScore] = useState(290); //HARDCODED CHANGE LATER!
+  const [score, setScore] = useState(580); //HARDCODED CHANGE LATER!
 
   const [loading, setLoading] = useState(true);
 
@@ -51,10 +51,10 @@ export default function CreditScoreCard({ goalMet = true , onScoreChange}) {
         {loading
           ? 'Calculating your score...'
           : score > 670
-          ? 'Great! You’re on track. Piggy is proud of you!'
+          ? 'Great! You’re on track. Piggie is proud of you!'
           : score > 580
           ? 'Good progress! Piggie likes it. Keep it up.'
-          : 'Let’s click on Pigge to improve your habits to raise your score.'}
+          : 'Let’s click on Piggie to improve your habits to raise your score.'}
       </p>
     </div>
   );

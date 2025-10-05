@@ -61,18 +61,21 @@ export default function Home() {
 
                 </div>
                 {/* Right column: pig button */}
-                <button
-                  className="focus:outline-none hover:scale-105 transition-transform"
-                  onClick={() => setShowChatbot(true)}
-                >
-                  <Image
-                    src={pigImage}
-                    alt="Chatbot Pig"
-                    width={100}
-                    height={100}
-                    className=""
-                  />
-                </button>
+                <div className="flex flex-col items-center">
+                  <button
+                    className="focus:outline-none hover:scale-105 transition-transform"
+                    onClick={() => setShowChatbot(true)}
+                  >
+                    <Image
+                      src={pigImage}
+                      alt="Chatbot Pig"
+                      width={100}
+                      height={100}
+                      className=""
+                    />
+                    <span className="text-sm text-gray-500 mt-2">Chat with Piggie!</span>
+                  </button>
+                </div>
               </div>
           </main>
         </div>

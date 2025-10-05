@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MonthlyGraph from './components/MonthlyGraph';
 import Streak from './components/Streak';
 import History from './components/History';
@@ -15,6 +15,17 @@ export default function Home() {
   const [showBudgeting, setShowBudgeting] = useState(false);
   const [showChatbot, setShowChatbot] = useState(false);
   const [creditScore, setCreditScore] = useState(null);
+
+  useEffect(() => {
+    const checkHash = () => {
+      if (typeof window !== 'undefined' && window.location.hash === '#set-budgets') {
+        setShowBudgeting(true);
+      }
+    };
+    checkHash();
+    window.addEventListener('hashchange', checkHash);
+    return () => window.removeEventListener('hashchange', checkHash);
+  }, []);
 
   const pigImage =
     creditScore !== null
@@ -46,6 +57,7 @@ export default function Home() {
                 {/* Left column: lowkey buttons */}
                 <div className="flex flex-col gap-2">
                   <button
+                      id="set-budgets-btn"
                       className="px-4 py-2 bg-green-100 text-green-800 text-left text-sm font-medium rounded-md hover:bg-green-200 transition"
                       onClick={() => setShowBudgeting(true)}
                     >

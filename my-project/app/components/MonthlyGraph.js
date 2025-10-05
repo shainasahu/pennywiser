@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
+import { createPortal } from "react-dom";
 import {
   LineChart,
   Line,
@@ -19,6 +20,9 @@ const MonthlyGoals = () => {
   const [viewMode, setViewMode] = useState("goals"); // 'goals' | 'progress'
   const [animatedWidths, setAnimatedWidths] = useState([]);
   const videoRef = useRef(null);
+  // Carousel slides (match files in public/)
+  const slides = ["/slide1.jpg", "/slide2.jpg", "/slide3.jpg", "/slide4.jpg"];
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/categories")
@@ -59,6 +63,11 @@ const MonthlyGoals = () => {
     }
     setShowVideo(false);
   };
+
+  // Ensure carousel always starts at the first slide when opened
+  useEffect(() => {
+    if (showVideo) setCurrentSlide(0);
+  }, [showVideo]);
 
   // Hardcoded credit score trend data
   const creditScoreData = [
@@ -167,34 +176,105 @@ const MonthlyGoals = () => {
       )}
 
       {/* Video Modal */}
-      {showVideo && (
-        <div
-          className="absolute inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60"
-          onClick={closeVideo}
-        >
-          <div
-            className="relative w-11/12 max-w-[340px] bg-black rounded-lg overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={closeVideo}
-              className="absolute top-2 right-2 z-10 px-3 py-1 bg-black/60 text-white rounded"
-            >
-              Close
-            </button>
+      {showVideo && typeof document !== 'undefined' && (() => {
+        const modalRoot = document.getElementById('iphone-modal-root');
+        if (!modalRoot) return null;
 
-            <video
-              ref={videoRef}
-              src="/videos/demo.mp4"
-              controls
-              autoPlay
-              className="w-full h-auto bg-black"
+        return createPortal(
+          <div
+            className="absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm pointer-events-auto"
+            onClick={closeVideo}
+          >
+            <div
+              className="relative w-11/12 max-w-3xl bg-white rounded-lg overflow-hidden shadow-lg"
+              onClick={(e) => e.stopPropagation()}
             >
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      )}
+              <button
+                onClick={closeVideo}
+                className="absolute top-3 right-3 z-20 px-3 py-1 bg-black/60 text-white rounded"
+                aria-label="Close"
+              >
+                ✕
+              </button>
+
+              {/* Slide Display (overlay panel centered) */}
+              <div className="flex items-center justify-center w-full p-4 relative">
+                <img
+                  src={slides[currentSlide]}
+                  alt={`Slide ${currentSlide + 1}`}
+                  className="w-full max-h-[78vh] object-cover transform scale-105"
+                />
+                {/* If we're on the 4th slide (index 3), show a Set Budget button in the empty area */}
+                {currentSlide === 3 && (
+                  <div className="absolute left-0 right-0 bottom-6 flex justify-center pointer-events-none">
+                    <button
+                      onClick={() => {
+                          // close modal then lead to the actual Set Budgets button on the page
+                          setShowVideo(false);
+                          if (typeof window !== 'undefined') {
+                            // small delay to ensure modal has closed and button is visible
+                            setTimeout(() => {
+                              const btn = document.getElementById('set-budgets-btn');
+                              if (btn) {
+                                try {
+                                  btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                  btn.focus({ preventScroll: true });
+                                  // trigger click on the real button to open budgeting
+                                  btn.click();
+                                  return;
+                                } catch (e) {
+                                  // fallthrough to hash fallback
+                                }
+                              }
+                              // fallback: set hash to trigger the page listener
+                              window.location.hash = '#set-budgets';
+                            }, 120);
+                          }
+                        }}
+                      className="pointer-events-auto px-4 py-2 bg-green-700 text-white rounded-lg shadow hover:bg-green-600 transition"
+                    >
+                      Set Budget
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Navigation Controls: Prev disabled on first slide; Next disabled on last slide */}
+              <div className="absolute inset-0 flex justify-between items-center px-6 pointer-events-none">
+                <button
+                  onClick={() => setCurrentSlide((prev) => (prev === 0 ? 0 : prev - 1))}
+                  aria-label="Previous slide"
+                  className={`pointer-events-auto bg-black/50 text-white p-2 rounded-full hover:bg-black transform transition-transform duration-150 hover:scale-110 hover:-translate-x-1 focus:outline-none focus:ring-2 focus:ring-green-600 text-sm ${
+                    currentSlide === 0 ? 'opacity-40 cursor-not-allowed' : 'opacity-100'
+                  }`}
+                  aria-disabled={currentSlide === 0}
+                >
+                  ◀
+                </button>
+
+                <button
+                  onClick={() => {
+                    if (currentSlide === slides.length - 1) {
+                      // last slide: disabled
+                      return;
+                    }
+                    setCurrentSlide((prev) => prev + 1);
+                  }}
+                  aria-label="Next slide"
+                  className={`pointer-events-auto bg-black/50 text-white p-2 rounded-full hover:bg-black transform transition-transform duration-150 hover:scale-110 hover:translate-x-1 focus:outline-none focus:ring-2 focus:ring-green-600 text-sm ${
+                    currentSlide === slides.length - 1 ? 'opacity-40 cursor-not-allowed' : 'opacity-100'
+                  }`}
+                  aria-disabled={currentSlide === slides.length - 1}
+                >
+                  ▶
+                </button>
+              </div>
+            </div>
+          </div>,
+          modalRoot
+        );
+      })()}
+
     </div>
   );
 };

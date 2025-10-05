@@ -39,5 +39,53 @@ def chat():
         print("Chat API error:", e)
         return jsonify({"error": str(e)}), 500
 
+@app.route("/api/nessie", methods=["POST"])
+def nessie():
+    # Nessie API - Capital One
+    
+    
+    # This is written for PYTHON 3
+    # Don't forget to install requests package
+    
+    # import requests
+    # import json
+    # import os
+    # from dotenv import load_dotenv
+    
+    # load_dotenv()
+    
+    customerId = '12'
+    apiKey = os.getenv("NESSIE_API_KEY")
+    print(apiKey)
+    
+    url = 'http://api.nessieisreal.com//accounts/{id}/purchases?key={}'.format(customerId,apiKey)
+    print(url)
+    
+    # get /accounts/{id}/purchases
+    response = requests.get(url)
+    
+    if response.status_code == 201:
+    	print('Response received')
+    
+    # within responses get description and amount
+    purchases = response.json()
+    print(purchases)    
+    for purchase in purchases:
+        description = purchase['description']
+        amount = purchase['amount']
+    
+    # Later, you can load it back
+    # from joblib import load
+    
+    loaded_pipeline = load('ridge_pipeline.joblib')
+    
+    # Predict for a single row — keep 2D shape
+    single_row = [description, amount]   # note the double brackets
+    y_pred = loaded_pipeline.predict(single_row)
+    print("Prediction for row 0:", y_pred)
+    print("Actual value:", y.iloc[0])
+    converted_value = y_pred[0] * (850 - 300) + 300
+    print("Converted to original scale (Credit score):", converted_value)
+
 if __name__ == "__main__":
     app.run(port=8000, debug=True)

@@ -1,13 +1,13 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import google.generativeai as genai
+from google import genai
 import os
 
 app = Flask(__name__)
 CORS(app)  # allow Next.js frontend to access backend
 
 os.environ["GEMINI_API_KEY"] = "AIzaSyArNynHncEWxWrx8tS9aAinzU1P7T-lsYY"
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+client = genai.Client()
 
 @app.route("/api/categories")
 def get_categories():
@@ -33,8 +33,10 @@ def chat():
             model="gemini-2.5-flash",
             contents=prompt
         )
+        # response.text contains the generated reply
         return jsonify({"response": response.text})
     except Exception as e:
+        print("Chat API error:", e)
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":

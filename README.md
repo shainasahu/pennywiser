@@ -1,7 +1,5 @@
-# PennyWiser
---
-
-# PennyWiser @divhacks 2025
+# PennyWise
+@divhacks 2025
 
 PennyWiser is a financial literacy tool designed for college students to simulate building a credit score based on real transactional behavior and goal achievement. It combines budgeting, spending tracking, and AI-driven guidance to help students understand financial responsibility before accessing real credit.
 

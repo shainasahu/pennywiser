@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 CORS(app)  # allow Next.js frontend to access backend
 
-os.environ["GEMINI_API_KEY"] = "AIzaSyArNynHncEWxWrx8tS9aAinzU1P7T-lsYY"
+os.environ["GEMINI_API_KEY"] = "xxxxxxxxxxxxxxxxxxx"
 client = genai.Client()
 
 @app.route("/api/categories")
